@@ -45,7 +45,7 @@ fn main() {
         sv_open_slot(0);
     }
 
-    println!("Loading SunVox file...");
+    println!("Loading {:?}", file_name);
     let file_name_ptr = file_name.into_raw();
     let ok = unsafe { sv_load(0, file_name_ptr) };
     let file_name = unsafe { CString::from_raw(file_name_ptr) };
