@@ -54,7 +54,9 @@ fn main() {
 
     for (i, file_name) in file_names.drain(..).enumerate() {
         unsafe {
-            sv_open_slot(i as i32);
+            if sv_open_slot(i as i32) < 0 {
+                panic!("Could not open slot {}", i);
+            }
         }
     
         println!("Loading {:?} into slot {}...", &file_name, i);
