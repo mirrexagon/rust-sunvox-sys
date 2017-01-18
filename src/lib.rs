@@ -144,8 +144,11 @@ extern "C" {
 
     /// Open a slot.
     ///
-    /// A slot is an instance of the SunVox engine. Each slot can have a single
-    /// project loaded at a time.
+    /// A slot is like an instance of the SunVox engine. Each slot can have a 
+    /// single project loaded at a time.
+    ///
+    /// I say "like" an instance of the engine because I think all slots share
+    /// the same tick counter, which you can get by calling `sv_get_ticks()`.
     pub fn sv_open_slot(slot: c_int) -> c_int;
 
     /// Close a slot. See `sv_open_slot()` for more details.
