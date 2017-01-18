@@ -144,8 +144,13 @@ extern "C" {
 
     /// Open a slot.
     ///
-    /// A slot is like an instance of the SunVox engine. Each slot can have a 
-    /// single project loaded at a time.
+    /// A slot is like an instance of the SunVox engine. Each slot can have a
+    /// single project loaded at a time. The library supports up to four slots,
+    /// 0 to 3 inclusive. This call appears to hang if called with a number
+    /// outside this range.
+    ///
+    /// Returns 0 on success, -1 on failure. Failure conditions include the
+    /// slot already being open.
     ///
     /// I say "like" an instance of the engine because I think all slots share
     /// the same tick counter, which you can get by calling `sv_get_ticks()`.
