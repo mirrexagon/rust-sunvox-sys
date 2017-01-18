@@ -1,6 +1,6 @@
 //! sunvox-sys
 //!
-//! FFI bindings to the Sunvox DLL (http://warmplace.ru/soft/sunvox).
+//! FFI bindings to the Sunvox library (http://warmplace.ru/soft/sunvox).
 //!
 //! Most comments here are original comments from `sunvox.h`.
 //! TODO: Go back and rewrite them?
