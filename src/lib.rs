@@ -71,7 +71,7 @@ pub struct sunvox_note {
     /// - 1 to 255 inclusive: The specified module + 1.
     pub module: c_uchar,
 
-    /// Padding (I think).
+    /// Padding.
     pub nothing: c_uchar,
 
     /// The value of the controller/effect column.
