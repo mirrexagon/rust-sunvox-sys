@@ -129,6 +129,12 @@ extern "C" {
     /// - frames: Number of frames in destination buffer.
     /// - latency: Audio latency (in frames).
     /// - out_time: Output time (in ticks).
+    ///
+    /// The `out_time` parameter is elaborated on a little bit in this thread:
+    /// http://www.warmplace.ru/forum/viewtopic.php?f=12&t=4152
+    ///
+    /// For normal use, pass the value of `sv_get_ticks()`, as detailed in that
+    /// thread.
     pub fn sv_audio_callback(buf: *mut c_void,
                              frames: c_int,
                              latency: c_int,
