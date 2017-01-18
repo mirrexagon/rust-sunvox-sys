@@ -33,18 +33,13 @@ pub const NOTECMD_PLAY: c_int = 132;
 
 // I can't find these in the official header file, but they're defined in
 // https://github.com/metrasynth/sunvox-dll-python/blob/master/sunvox/types.py
+/// Change the pitch of a currently playing note.
 pub const NOTECMD_SET_PITCH: c_int = 133;
+
+/// Apply effect in this note cell to the corresponding one in the previous track.
 pub const NOTECMD_PREV_TRACK: c_int = 134;
 
 
-// sv_send_event() parameters:
-//   slot;
-//   track_num: from 0 to 15;
-//   note: 0 - nothing; 1..127 - note num; 128 - note off; 129, 130... - see NOTECMD_xxx defines;
-//   vel: velocity 1..129; 0 - default;
-//   module: 0 - nothing; 1..255 - module number;
-//   ctl: CCXX. CC - number of controller. XX - std effect;
-//   ctl_val: value of controller.
 
 
 /// A single note cell in a pattern.
@@ -182,9 +177,10 @@ extern "C" {
     pub fn sv_volume(slot: c_int, vol: c_int) -> c_int;
 
 
-    /// track_num - track number (0..15) within the special pattern
-    /// ctl - 0xCCEE. CC - number of a controller (1..255). EE - std effect
-    /// ctl_val - value of controller/effect
+    /// Cause an event to occur as though it had been played in a pattern.
+    ///
+    /// `track_num` is in the range 0 to 16 inclusive, and refers to the track
+    /// number in a special hidden pattern.
     pub fn sv_send_event(slot: c_int,
                          track_num: c_int,
                          note: c_int,
