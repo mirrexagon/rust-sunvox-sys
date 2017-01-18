@@ -1,4 +1,4 @@
-# sunvox-sys
+# rust-sunvox-sys
 
 FFI bindings to the SunVox DLL (http://warmplace.ru/soft/sunvox).
 
