@@ -253,13 +253,13 @@ extern "C" {
     pub fn sv_get_song_name(slot: c_int) -> *const c_char;
 
 
-    /// Get the Beats Per Minute of the currentl loaded project.
+    /// Get the Beats Per Minute of the currently loaded project.
     ///
     /// Returns zero if no project is loaded.
     pub fn sv_get_song_bpm(slot: c_int) -> c_int;
 
 
-    /// Get the Ticks Per Line of the currentl loaded project.
+    /// Get the Ticks Per Line of the currently loaded project.
     ///
     /// Returns zero if no project is loaded.
     pub fn sv_get_song_tpl(slot: c_int) -> c_int;
@@ -311,6 +311,11 @@ extern "C" {
                            -> c_int;
 
 
+    /// Get the number of modules in the currently loaded project?
+    ///
+    /// Does not seem to directly correspond to that.
+    ///
+    /// Returns zero if no project is loaded.
     pub fn sv_get_number_of_modules(slot: c_int) -> c_int;
 
 
@@ -364,11 +369,11 @@ extern "C" {
     pub fn sv_pattern_mute(slot: c_int, pat_num: c_int, mute: c_int) -> c_int;
 
 
-    /// SunVox engine uses its own time space, measured in ticks.
+    /// Get the current tick counter (from 0 to 0xFFFFFFFF).
     ///
-    /// Use sv_get_ticks() to get current tick counter (from 0 to 0xFFFFFFFF).
+    /// SunVox engine uses its own time space, measured in ticks.
     pub fn sv_get_ticks() -> c_uint;
 
-    /// Use sv_get_ticks_per_second() to get the number of SunVox ticks per second.
+    /// Get the number of SunVox ticks per second.
     pub fn sv_get_ticks_per_second() -> c_uint;
 }
