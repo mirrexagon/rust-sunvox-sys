@@ -57,22 +57,22 @@ pub struct sunvox_note {
     /// - 0:  Nothing.
     /// - 1 to 127 inclusive: A normal note.
     /// - 128+: See the `NOTECMD` constants.
-    note: c_uchar,
+    pub note: c_uchar,
 
     /// The velocity column (note velocity).
     ///
     /// - 0: Empty (default).
     /// - 1 to 129 inclusive: The specified velocity + 1.
-    vel: c_uchar,
+    pub vel: c_uchar,
 
     /// The module column (module to affect).
     ///
     /// - 0: Empty (none).
     /// - 1 to 255 inclusive: The specified module + 1.
-    module: c_uchar,
+    pub module: c_uchar,
 
     /// Padding (I think).
-    nothing: c_uchar,
+    pub nothing: c_uchar,
 
     /// The value of the controller/effect column.
     ///
@@ -80,10 +80,10 @@ pub struct sunvox_note {
     /// controller of the selected module to affect, and the last two digits
     /// are the number of an effect. Set a pair of digits to zero to
     /// ignore that part.
-    ctl: c_ushort,
+    pub ctl: c_ushort,
 
     /// The value of the controller/effect parameter column.
-    ctl_val: c_ushort,
+    pub ctl_val: c_ushort,
 }
 
 
