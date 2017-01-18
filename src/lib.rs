@@ -138,15 +138,31 @@ extern "C" {
 
     /// Open a slot.
     ///
-    /// A slot is an instance of the SunVox engine. Each slot can have a single 
+    /// A slot is an instance of the SunVox engine. Each slot can have a single
     /// project loaded at a time.
     pub fn sv_open_slot(slot: c_int) -> c_int;
+
+    /// Close a slot. See `sv_open_slot()` for more details.
     pub fn sv_close_slot(slot: c_int) -> c_int;
+
+    /// Lock a slot.
+    ///
+    /// There are a few functions that need to be called between a
+    /// `sv_lock_slot()`/`sv_unlock_slot()` pair. These are marked with
+    /// "USE LOCK/UNLOCK!".
     pub fn sv_lock_slot(slot: c_int) -> c_int;
+
+    /// Unlock a slot. See `sv_lock_slot()` for more details.
     pub fn sv_unlock_slot(slot: c_int) -> c_int;
 
 
+    /// Initialize the library.
+    ///
+    /// The `flags` parameter takes either zero (for default options), or a
+    /// number of `SV_INIT_FLAG_xxx` constants ORed together.
     pub fn sv_init(dev: *const c_char, freq: c_int, channels: c_int, flags: c_uint) -> c_int;
+
+    /// Deinitialize the library.
     pub fn sv_deinit() -> c_int;
 
 
@@ -158,32 +174,48 @@ extern "C" {
     pub fn sv_get_sample_type() -> c_int;
 
 
+    /// Load a SunVox project file into the specified slot.
     pub fn sv_load(slot: c_int, name: *const c_char) -> c_int;
+
+    /// Load a SunVox project from file data in memory.
     pub fn sv_load_from_memory(slot: c_int, data: *mut c_void, data_size: c_uint) -> c_int;
 
 
+    /// Start playing the project from the current play cursor position.
     pub fn sv_play(slot: c_int) -> c_int;
+
+    /// Start playing the project from the beginning.
     pub fn sv_play_from_beginning(slot: c_int) -> c_int;
+
+    /// Stop playing the project. The play cursor stays where it is.
     pub fn sv_stop(slot: c_int) -> c_int;
 
-    /// autostop values: 0 - disable autostop; 1 - enable autostop.
-    /// When disabled, song is playing infinitely in the loop.
+    /// Enable or disables autostop.
+    ///
+    /// - 0: Disable autostop.
+    /// - 1: Enable autostop.
+    ///
+    /// When disabled, the project plays in a loop.
     pub fn sv_set_autostop(slot: c_int, autostop: c_int) -> c_int;
 
 
-    /// return values: 0 - song is playing now; 1 - stopped.
+    /// Whether the project is stopped (ie. not playing).
+    ///
+    /// Returns 0 if it is playing, 1 if it is stopped.
     pub fn sv_end_of_song(slot: c_int) -> c_int;
 
 
+    /// Rewind the project to the beginning.
     pub fn sv_rewind(slot: c_int, line_num: c_int) -> c_int;
 
 
+    /// Set the volume of the project.
     pub fn sv_volume(slot: c_int, vol: c_int) -> c_int;
 
 
     /// Cause an event to occur as though it had been played in a pattern.
     ///
-    /// `track_num` is in the range 0 to 16 inclusive, and refers to the track
+    /// `track_num` is in the range 0 to 15 inclusive, and refers to the track
     /// number in a special hidden pattern.
     pub fn sv_send_event(slot: c_int,
                          track_num: c_int,
@@ -195,21 +227,35 @@ extern "C" {
                          -> c_int;
 
 
-    /// Get current line number
+    /// Get the line number of the play cursor.
     pub fn sv_get_current_line(slot: c_int) -> c_int;
 
-    /// Get current line number in fixed point format: 27.5
+    /// Get the line number of the play in fixed point format: 27.5
+    ///
+    /// TODO: Figure out exactly what this means.
     pub fn sv_get_current_line2(slot: c_int) -> c_int;
 
 
-    /// From 0 to 255
+    /// The current signal level/amplitude for a given audio channel in the
+    /// range 0 to 255 inclusive.
     pub fn sv_get_current_signal_level(slot: c_int, channel: c_int) -> c_int;
 
 
+    /// Get the name of the currently loaded project.
+    ///
+    /// Returns zero if no project is loaded.
     pub fn sv_get_song_name(slot: c_int) -> *const c_char;
 
 
+    /// Get the Beats Per Minute of the currentl loaded project.
+    ///
+    /// Returns zero if no project is loaded.
     pub fn sv_get_song_bpm(slot: c_int) -> c_int;
+
+
+    /// Get the Ticks Per Line of the currentl loaded project.
+    ///
+    /// Returns zero if no project is loaded.
     pub fn sv_get_song_tpl(slot: c_int) -> c_int;
 
 
@@ -230,19 +276,13 @@ extern "C" {
                          z: c_int)
                          -> c_int;
 
-    /// Remove the specified module.
-    ///
-    /// USE LOCK/UNLOCK!
+    /// Remove the specified module. USE LOCK/UNLOCK!
     pub fn sv_remove_module(slot: c_int, mod_num: c_int) -> c_int;
 
-    /// Connect the source to the destination.
-    ///
-    /// USE LOCK/UNLOCK!
+    /// Connect the source to the destination. USE LOCK/UNLOCK!
     pub fn sv_connect_module(slot: c_int, source: c_int, destination: c_int) -> c_int;
 
-    /// Disconnect the source from the destination.
-    ///
-    /// USE LOCK/UNLOCK!
+    /// Disconnect the source from the destination. USE LOCK/UNLOCK!
     pub fn sv_disconnect_module(slot: c_int, source: c_int, destination: c_int) -> c_int;
 
     /// Load a module.
