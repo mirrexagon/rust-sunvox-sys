@@ -1,0 +1,11 @@
+[package]
+name = "sunvox-sys"
+version = "0.1.0"
+authors = ["Andrew Abbott <mirrexagon@mirrexagon.com>"]
+
+description = "FFI bindings to the SunVox DLL"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+libc = "0.2"
+
