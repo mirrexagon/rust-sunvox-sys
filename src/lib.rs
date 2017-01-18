@@ -136,6 +136,10 @@ extern "C" {
                              -> c_int;
 
 
+    /// Open a slot.
+    ///
+    /// A slot is an instance of the SunVox engine. Each slot can have a single 
+    /// project loaded at a time.
     pub fn sv_open_slot(slot: c_int) -> c_int;
     pub fn sv_close_slot(slot: c_int) -> c_int;
     pub fn sv_lock_slot(slot: c_int) -> c_int;
