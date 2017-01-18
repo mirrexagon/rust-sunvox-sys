@@ -22,11 +22,15 @@ use libc::{c_void, c_int, c_uint, c_char, c_uchar, c_short, c_ushort};
 // --- ==== --- //
 
 
+/// Single note off.
 pub const NOTECMD_NOTE_OFF: c_int = 128;
-/// notes of all synths off
+
+/// Notes of all synths off.
 pub const NOTECMD_ALL_NOTES_OFF: c_int = 129;
-/// stop and clean all synths
+
+/// Stop and clean all synths.
 pub const NOTECMD_CLEAN_SYNTHS: c_int = 130;
+
 pub const NOTECMD_STOP: c_int = 131;
 pub const NOTECMD_PLAY: c_int = 132;
 
@@ -46,34 +50,56 @@ pub const NOTECMD_PREV_TRACK: c_int = 134;
 //   ctl_val: value of controller.
 
 
+/// A single note cell in the tracker grid.
 #[repr(C)]
 #[derive(Clone, Debug)]
 pub struct sunvox_note {
-    /// 0 - nothing; 1..127 - note num; 128 - note off; 129, 130... - see NOTECMD_xxx defines
+    /// The note column.
+    ///
+    ///
+    /// - 0:  Nothing.
+    /// - 1 to 127 inclusive: A normal note.
+    /// - 128+: See the `NOTECMD` constants.
     note: c_uchar,
 
-    /// Velocity 1..129; 0 - default
+    /// The velocity column (note velocity).
+    ///
+    /// - 0: Empty (default).
+    /// - 1 to 129 inclusive: The specified velocity + 1.
     vel: c_uchar,
 
-    /// 0 - nothing; 1..255 - module number (real module number + 1)
+    /// The module column (module to affect).
+    ///
+    /// - 0: Empty (none).
+    /// - 1 to 255 inclusive: The specified module + 1.
     module: c_uchar,
 
+    /// Padding (I think).
     nothing: c_uchar,
 
-    /// CCEE. CC - number of a controller (1..255). EE - std effect
+    /// The value of the controller/effect column.
+    ///
+    /// Interpreted as a hexadecimal number, the first two digits are the
+    /// controller of the selected module to affect, and the last two digits
+    /// are the number of an effect. Set a pair of digits to zero to
+    /// ignore that part.
     ctl: c_ushort,
 
-    /// XXYY. Value of controller/effect
+    /// The value of the controller/effect parameter column.
     ctl_val: c_ushort,
 }
 
 
 pub const SV_INIT_FLAG_NO_DEBUG_OUTPUT: c_int = 1 << 0;
-/// Interaction with sound card is on the user side
+
+/// Interaction with sound card is on the user side.
 pub const SV_INIT_FLAG_USER_AUDIO_CALLBACK: c_int = 1 << 1;
 pub const SV_INIT_FLAG_AUDIO_INT16: c_int = 1 << 2;
 pub const SV_INIT_FLAG_AUDIO_FLOAT32: c_int = 1 << 3;
-/// Audio callback and song modification functions are in single thread
+
+/// Audio callback and song modification functions are in a single thread.
+///
+/// I believe by default they are run in separate threads.
 pub const SV_INIT_FLAG_ONE_THREAD: c_int = 1 << 4;
 
 
@@ -95,17 +121,22 @@ pub const SV_STYPE_FLOAT64: c_int = 0;
 
 #[link(name = "sunvox")]
 extern "C" {
-    /// sv_audio_callback() - get the next piece of SunVox audio.
+    /// Get the next piece of SunVox audio.
     ///
-    /// With sv_audio_callback() you can ignore the built-in SunVox sound output mechanism and use some other sound system.
-    /// Set SV_INIT_FLAG_USER_AUDIO_CALLBACK flag in sv_init() if you want to use sv_audio_callback() function.
-    /// Parameters:
-    /// buf - destination buffer of type signed short (if SV_INIT_FLAG_AUDIO_INT16 used in sv_init())
-    ///       or float (if SV_INIT_FLAG_AUDIO_FLOAT32 used in sv_init());
-    ///       stereo data will be interleaved in this buffer: LRLR... ; where the LR is the one frame (Left+Right channels);
-    /// frames - number of frames in destination buffer;
-    /// latency - audio latency (in frames);
-    /// out_time - output time (in ticks).
+    /// With `sv_audio_callback(`) you can ignore the built-in SunVox sound
+    /// output mechanism and use some other sound system. Set the
+    /// `SV_INIT_FLAG_USER_AUDIO_CALLBACK` flag when calling `sv_init()` if
+    /// you want to use this function.
+    ///
+    /// # Parameters
+    ///
+    /// - buf: Destination buffer. If `SV_INIT_FLAG_AUDIO_INT16` was passed to
+    /// `sv_init()`, this is a buffer of `i16`s. If `SV_INIT_FLAG_AUDIO_FLOAT32`
+    /// was passed, this is a buffer of `f32`s. Stereo data will be interleaved
+    /// in this buffer: LRLR... ; where the LR is one frame (Left+Right channels).
+    /// - frames: Number of frames in destination buffer.
+    /// - latency: Audio latency (in frames).
+    /// - out_time: Output time (in ticks).
     pub fn sv_audio_callback(buf: *mut c_void,
                              frames: c_int,
                              latency: c_int,
@@ -123,9 +154,11 @@ extern "C" {
     pub fn sv_deinit() -> c_int;
 
 
-    /// sv_get_sample_type() - get internal sample type of the SunVox engine. Return value: one of the SV_STYPE_xxx defines.
+    /// Get the internal sample type of the SunVox engine.
     ///
-    /// Use it to get the scope buffer type from get_module_scope() function.
+    /// Returns one of the `SV_STYPE_xxx` constants.
+    ///
+    /// Use it to get the scope buffer type from `get_module_scope()` function.
     pub fn sv_get_sample_type() -> c_int;
 
 
@@ -142,7 +175,7 @@ extern "C" {
     pub fn sv_set_autostop(slot: c_int, autostop: c_int) -> c_int;
 
 
-    /// sv_end_of_song() return values: 0 - song is playing now; 1 - stopped.
+    /// return values: 0 - song is playing now; 1 - stopped.
     pub fn sv_end_of_song(slot: c_int) -> c_int;
 
 
@@ -183,12 +216,13 @@ extern "C" {
     pub fn sv_get_song_tpl(slot: c_int) -> c_int;
 
 
-    /// Frame is one discrete of the sound. Sampling frequency 44100 Hz means, that you hear 44100 frames per second.
+    /// Frame is one discrete of the sound. Sampling frequency 44100 Hz means,
+    /// that you hear 44100 frames per second.
     pub fn sv_get_song_length_frames(slot: c_int) -> c_uint;
     pub fn sv_get_song_length_lines(slot: c_int) -> c_uint;
 
 
-    /// sv_new_module() - create a new module;
+    /// Create a new module.
     ///
     /// USE LOCK/UNLOCK!
     pub fn sv_new_module(slot: c_int,
@@ -199,22 +233,24 @@ extern "C" {
                          z: c_int)
                          -> c_int;
 
-    /// sv_remove_module() - remove selected module;
+    /// Remove the specified module.
     ///
     /// USE LOCK/UNLOCK!
     pub fn sv_remove_module(slot: c_int, mod_num: c_int) -> c_int;
 
-    /// sv_connect_module() - connect the source to the destination;
+    /// Connect the source to the destination.
     ///
     /// USE LOCK/UNLOCK!
     pub fn sv_connect_module(slot: c_int, source: c_int, destination: c_int) -> c_int;
 
-    /// sv_disconnect_module() - disconnect the source from the destination;
+    /// Disconnect the source from the destination.
     ///
     /// USE LOCK/UNLOCK!
     pub fn sv_disconnect_module(slot: c_int, source: c_int, destination: c_int) -> c_int;
 
-    /// sv_load_module() - load a module; supported file formats: sunsynth, xi, wav, aiff;
+    /// Load a module.
+    ///
+    /// Supported file formats: `sunsynth`, `xi`, `wav`, `aiff`
     pub fn sv_load_module(slot: c_int,
                           file_name: *const c_char,
                           x: c_int,
@@ -222,7 +258,9 @@ extern "C" {
                           z: c_int)
                           -> c_int;
 
-    /// sv_sampler_load() - load a sample to already created Sampler; to replace the whole sampler - set sample_slot to -1;
+    /// Load a sample to an existing Sampler.
+    ///
+    /// To replace the whole sampler, set `sample_slot` to -1.
     pub fn sv_sampler_load(slot: c_int,
                            sampler_module: c_int,
                            file_name: *const c_char,
@@ -246,7 +284,7 @@ extern "C" {
                                buffer_size: *mut c_int)
                                -> *mut c_void;
 
-    /// sv_get_module_scope2() return value = received number of samples (may be less or equal to samples_to_read).
+    /// Return value:  received number of samples (may be less or equal to `samples_to_read`).
     pub fn sv_get_module_scope2(slot: c_int,
                                 mod_num: c_int,
                                 channel: c_int,
@@ -271,10 +309,11 @@ extern "C" {
 
 
     /// How to use sv_get_pattern_data():
-    ///   pat_tracks: c_int = sv_get_pattern_tracks(slot, pat_num);
-    ///   sunvox_note* data = sv_get_pattern_data(slot, pat_num);
-    ///   sunvox_note* n = &data[ line_number * pat_tracks + track_number ];
-    ///   ... and then do someting with note n
+    ///
+    /// - `int pat_tracks = sv_get_pattern_tracks(slot, pat_num);`
+    /// - `sunvox_note* data = sv_get_pattern_data(slot, pat_num);`
+    /// - `sunvox_note* n = &data[ line_number * pat_tracks + track_number ];`
+    /// - ... and then do someting with note n
     pub fn sv_get_pattern_data(slot: c_int, pat_num: c_int) -> *mut sunvox_note;
 
 
