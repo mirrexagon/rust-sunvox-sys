@@ -9,7 +9,7 @@ FFI bindings to the SunVox library (http://warmplace.ru/soft/sunvox).
 - The Metrasynth projects (https://github.com/metrasynth and https://metrasynth.readthedocs.io), specifically `sunvox-dll-python`, were very helpful to look at for reference.
 
 
-## License
+## Crate License
 
 This crate is licensed under either of
 
@@ -27,7 +27,7 @@ for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
 dual licensed as above, without any additional terms or conditions.
 
 
-### SunVox library
+## SunVox Library License
 
 Note that the SunVox library itself has this license:
 
