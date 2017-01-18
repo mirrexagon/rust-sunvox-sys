@@ -47,7 +47,7 @@ pub const NOTECMD_PREV_TRACK: c_int = 134;
 //   ctl_val: value of controller.
 
 
-/// A single note cell in the tracker grid.
+/// A single note cell in a pattern.
 #[repr(C)]
 #[derive(Clone, Debug)]
 pub struct sunvox_note {
