@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Andrew Abbott <mirrexagon@mirrexagon.com>"]
 
 description = "FFI bindings to the SunVox library"
-license = "MIT OR Apache-2.0"
+license = "CC0-1.0"
 repository = "https://github.com/mirrexagon/rust-sunvox-sys"
 readme = "README.md"
 keywords = ["sunvox", "audio", "music"]
