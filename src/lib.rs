@@ -14,7 +14,7 @@ extern crate libc;
 
 
 // --- Use --- //
-use libc::{c_void, c_int, c_uint, c_char, c_uchar, c_short, c_ushort};
+use libc::{c_void, c_int, c_uint, c_char, c_uchar, c_short, c_ushort, c_float};
 // --- ==== --- //
 
 
@@ -39,14 +39,11 @@ pub const NOTECMD_SET_PITCH: c_int = 133;
 pub const NOTECMD_PREV_TRACK: c_int = 134;
 
 
-
-
 /// A single note cell in a pattern.
 #[repr(C)]
 #[derive(Clone, Debug)]
 pub struct sunvox_note {
     /// The note column.
-    ///
     ///
     /// - 0:  Nothing.
     /// - 1 to 127 inclusive: A normal note.
@@ -81,16 +78,19 @@ pub struct sunvox_note {
 }
 
 
+/// Supresses debug output from the library. TEST
 pub const SV_INIT_FLAG_NO_DEBUG_OUTPUT: c_int = 1 << 0;
 
 /// Interaction with sound card is on the user side.
+///
+/// See `sv_audio_callback()`.
 pub const SV_INIT_FLAG_USER_AUDIO_CALLBACK: c_int = 1 << 1;
+
+///
 pub const SV_INIT_FLAG_AUDIO_INT16: c_int = 1 << 2;
 pub const SV_INIT_FLAG_AUDIO_FLOAT32: c_int = 1 << 3;
 
 /// Audio callback and song modification functions are in a single thread.
-///
-/// I believe by default they are run in separate threads.
 pub const SV_INIT_FLAG_ONE_THREAD: c_int = 1 << 4;
 
 
@@ -108,13 +108,11 @@ pub const SV_STYPE_FLOAT32: c_int = 0;
 pub const SV_STYPE_FLOAT64: c_int = 0;
 
 
-// USE LOCK/UNLOCK! - Use the functions with this label within the sv_lock_slot() / sv_unlock_slot() block only!
-
 #[link(name = "sunvox")]
 extern "C" {
     /// Get the next piece of SunVox audio.
     ///
-    /// With `sv_audio_callback(`) you can ignore the built-in SunVox sound
+    /// With `sv_audio_callback()` you can ignore the built-in SunVox sound
     /// output mechanism and use some other sound system. Set the
     /// `SV_INIT_FLAG_USER_AUDIO_CALLBACK` flag when calling `sv_init()` if
     /// you want to use this function.
@@ -122,8 +120,8 @@ extern "C" {
     /// # Parameters
     ///
     /// - buf: Destination buffer. If `SV_INIT_FLAG_AUDIO_INT16` was passed to
-    /// `sv_init()`, this is a buffer of `i16`s. If `SV_INIT_FLAG_AUDIO_FLOAT32`
-    /// was passed, this is a buffer of `f32`s. Stereo data will be interleaved
+    /// `sv_init()`, this is a buffer of `c_short`s. If `SV_INIT_FLAG_AUDIO_FLOAT32`
+    /// was passed, this is a buffer of `c_float`s. Stereo data will be interleaved
     /// in this buffer: LRLR... ; where the LR is one frame (Left+Right channels).
     /// - frames: Number of frames in destination buffer.
     /// - latency: Audio latency (in frames).
