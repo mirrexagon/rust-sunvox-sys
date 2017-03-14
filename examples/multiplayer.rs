@@ -27,9 +27,9 @@ fn main() {
         args_iter.next().unwrap(); // Skip executable name.
         args_iter.map(|arg| CString::new(arg).unwrap()).collect()
     };
-    
+
     let n_files = file_names.len();
-    
+
     if n_files == 0 {
         panic!("No files specified.");
     }
@@ -58,7 +58,7 @@ fn main() {
                 panic!("Could not open slot {}", i);
             }
         }
-    
+
         println!("Loading {:?} into slot {}...", &file_name, i);
         let file_name_ptr = file_name.into_raw();
         let ok = unsafe { sv_load(i as i32, file_name_ptr) };
@@ -69,7 +69,7 @@ fn main() {
     }
 
     // ---
-    
+
     for i in 0..n_files {
         unsafe {
             sv_play_from_beginning(i as i32);
