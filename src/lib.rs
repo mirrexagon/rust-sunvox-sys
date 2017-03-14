@@ -103,9 +103,9 @@ pub const SV_MODULE_OUTPUTS_MASK: c_int = 255 << SV_MODULE_OUTPUTS_OFF;
 
 
 pub const SV_STYPE_INT16: c_int = 0;
-pub const SV_STYPE_INT32: c_int = 0;
-pub const SV_STYPE_FLOAT32: c_int = 0;
-pub const SV_STYPE_FLOAT64: c_int = 0;
+pub const SV_STYPE_INT32: c_int = 1;
+pub const SV_STYPE_FLOAT32: c_int = 2;
+pub const SV_STYPE_FLOAT64: c_int = 3;
 
 
 #[link(name = "sunvox")]
