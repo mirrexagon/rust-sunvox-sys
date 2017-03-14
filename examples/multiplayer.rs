@@ -1,7 +1,6 @@
 //! Play multiple SunVox projects AT THE SAME TIME.
 //!
 //! This is a terrible idea.
-//!
 
 
 // --- External crates --- //

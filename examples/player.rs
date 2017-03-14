@@ -1,5 +1,4 @@
 //! Play a SunVox project.
-//!
 
 
 // --- External crates --- //

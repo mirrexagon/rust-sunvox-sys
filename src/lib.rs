@@ -1,7 +1,6 @@
 //! # sunvox-sys
 //!
 //! FFI bindings to the Sunvox library (http://warmplace.ru/soft/sunvox).
-//!
 
 
 // --- Crate attributes --- //
