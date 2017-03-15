@@ -256,7 +256,7 @@ extern "C" {
 
     /// Get the name of the currently loaded project.
     ///
-    /// Returns zero if no project is loaded.
+    /// Returns NULL if no project is loaded.
     pub fn sv_get_song_name(slot: c_int) -> *const c_char;
 
 
