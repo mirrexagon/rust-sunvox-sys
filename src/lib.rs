@@ -86,8 +86,10 @@ pub const SV_INIT_FLAG_NO_DEBUG_OUTPUT: c_int = 1 << 0;
 /// See `sv_audio_callback()`.
 pub const SV_INIT_FLAG_USER_AUDIO_CALLBACK: c_int = 1 << 1;
 
-///
+/// Audio is signed 16-bit (`c_short`).
 pub const SV_INIT_FLAG_AUDIO_INT16: c_int = 1 << 2;
+
+/// Audio is float (`c_float`).
 pub const SV_INIT_FLAG_AUDIO_FLOAT32: c_int = 1 << 3;
 
 /// Audio callback and song modification functions are in a single thread.
