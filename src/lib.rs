@@ -244,6 +244,8 @@ extern "C" {
     /// Get the line number of the play in fixed point format: 27.5
     ///
     /// TODO: Figure out exactly what this means.
+    /// I'm guessing it means 27 bits for the integer part and 5 bits for the
+    /// fractional part.
     pub fn sv_get_current_line2(slot: c_int) -> c_int;
 
 
