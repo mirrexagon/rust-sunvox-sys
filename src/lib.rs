@@ -110,7 +110,7 @@ pub const SV_STYPE_FLOAT64: c_int = 3;
 
 #[link(name = "sunvox")]
 extern "C" {
-    /// Get the next piece of SunVox audio.
+    /// Gets the next piece of SunVox audio.
     ///
     /// With `sv_audio_callback()` you can ignore the built-in SunVox sound
     /// output mechanism and use some other sound system. Set the
@@ -139,7 +139,7 @@ extern "C" {
                              -> c_int;
 
 
-    /// Open a slot.
+    /// Opens a slot.
     ///
     /// A slot is like an instance of the SunVox engine. Each slot can have a
     /// single project loaded at a time. The library supports up to four slots,
@@ -156,28 +156,28 @@ extern "C" {
     /// Close a slot. See `sv_open_slot()` for more details.
     pub fn sv_close_slot(slot: c_int) -> c_int;
 
-    /// Lock a slot.
+    /// Locks a slot.
     ///
     /// There are a few functions that need to be called between a
     /// `sv_lock_slot()`/`sv_unlock_slot()` pair. These are marked with
     /// "USE LOCK/UNLOCK!".
     pub fn sv_lock_slot(slot: c_int) -> c_int;
 
-    /// Unlock a slot. See `sv_lock_slot()` for more details.
+    /// Unlocks a slot. See `sv_lock_slot()` for more details.
     pub fn sv_unlock_slot(slot: c_int) -> c_int;
 
 
-    /// Initialize the library.
+    /// Initializes the library.
     ///
     /// The `flags` parameter takes either zero (for default options), or a
     /// number of `SV_INIT_FLAG_xxx` constants ORed together.
     pub fn sv_init(dev: *const c_char, freq: c_int, channels: c_int, flags: c_uint) -> c_int;
 
-    /// Deinitialize the library.
+    /// Deinitializes the library.
     pub fn sv_deinit() -> c_int;
 
 
-    /// Get the internal sample type of the SunVox engine.
+    /// Gets the internal sample type of the SunVox engine.
     ///
     /// Returns one of the `SV_STYPE_xxx` constants.
     ///
@@ -185,23 +185,23 @@ extern "C" {
     pub fn sv_get_sample_type() -> c_int;
 
 
-    /// Load a SunVox project file into the specified slot.
+    /// Loads a SunVox project file into the specified slot.
     pub fn sv_load(slot: c_int, name: *const c_char) -> c_int;
 
-    /// Load a SunVox project from file data in memory.
+    /// Loads a SunVox project from file data in memory. TEST
     pub fn sv_load_from_memory(slot: c_int, data: *mut c_void, data_size: c_uint) -> c_int;
 
 
-    /// Start playing the project from the current play cursor position.
+    /// Starts playing the project from the current play cursor position.
     pub fn sv_play(slot: c_int) -> c_int;
 
-    /// Start playing the project from the beginning.
+    /// Starts playing the project from the beginning.
     pub fn sv_play_from_beginning(slot: c_int) -> c_int;
 
-    /// Stop playing the project. The play cursor stays where it is.
+    /// Stops playing the project. The play cursor stays where it is.
     pub fn sv_stop(slot: c_int) -> c_int;
 
-    /// Enable or disables autostop.
+    /// Enables or disables autostop.
     ///
     /// - 0: Disable autostop.
     /// - 1: Enable autostop.
@@ -210,21 +210,21 @@ extern "C" {
     pub fn sv_set_autostop(slot: c_int, autostop: c_int) -> c_int;
 
 
-    /// Whether the project is stopped (ie. not playing).
+    /// Gets whether the project is stopped (ie. not playing).
     ///
     /// Returns 0 if it is playing, 1 if it is stopped.
     pub fn sv_end_of_song(slot: c_int) -> c_int;
 
 
-    /// Rewind the project to the beginning.
+    /// Rewinds the project to the beginning.
     pub fn sv_rewind(slot: c_int, line_num: c_int) -> c_int;
 
 
-    /// Set the volume of the project.
+    /// Sets the volume of the project.
     pub fn sv_volume(slot: c_int, vol: c_int) -> c_int;
 
 
-    /// Cause an event to occur as though it had been played in a pattern.
+    /// Causes an event to occur as though it had been played in a pattern.
     ///
     /// `track_num` is in the range 0 to 15 inclusive, and refers to the track
     /// number in a special hidden pattern.
@@ -238,10 +238,10 @@ extern "C" {
                          -> c_int;
 
 
-    /// Get the line number of the play cursor.
+    /// Gets the line number of the play cursor.
     pub fn sv_get_current_line(slot: c_int) -> c_int;
 
-    /// Get the line number of the play in fixed point format: 27.5
+    /// Gets the line number of the play in fixed point format: 27.5
     ///
     /// TODO: Figure out exactly what this means.
     /// I'm guessing it means 27 bits for the integer part and 5 bits for the
@@ -249,38 +249,36 @@ extern "C" {
     pub fn sv_get_current_line2(slot: c_int) -> c_int;
 
 
-    /// The current signal level/amplitude for a given audio channel in the
-    /// range 0 to 255 inclusive.
+    /// Gets the current signal level/amplitude for a given audio channel
+    /// in the range 0 to 255 inclusive.
     pub fn sv_get_current_signal_level(slot: c_int, channel: c_int) -> c_int;
 
 
-    /// Get the name of the currently loaded project.
+    /// Gets the name of the currently loaded project.
     ///
     /// Returns NULL if no project is loaded.
     pub fn sv_get_song_name(slot: c_int) -> *const c_char;
 
 
-    /// Get the Beats Per Minute of the currently loaded project.
+    /// Gets the Beats Per Minute of the currently loaded project.
     ///
     /// Returns zero if no project is loaded.
     pub fn sv_get_song_bpm(slot: c_int) -> c_int;
 
 
-    /// Get the Ticks Per Line of the currently loaded project.
+    /// Gets the Ticks Per Line of the currently loaded project.
     ///
     /// Returns zero if no project is loaded.
     pub fn sv_get_song_tpl(slot: c_int) -> c_int;
 
 
-    /// Frame is one discrete of the sound. Sampling frequency 44100 Hz means,
+    /// Frames is one discrete of the sound. Sampling frequency 44100 Hz means,
     /// that you hear 44100 frames per second.
     pub fn sv_get_song_length_frames(slot: c_int) -> c_uint;
     pub fn sv_get_song_length_lines(slot: c_int) -> c_uint;
 
 
-    /// Create a new module.
-    ///
-    /// USE LOCK/UNLOCK!
+    /// Creates a new module. USE LOCK/UNLOCK!
     pub fn sv_new_module(slot: c_int,
                          _type: *const c_char,
                          name: *const c_char,
@@ -289,16 +287,16 @@ extern "C" {
                          z: c_int)
                          -> c_int;
 
-    /// Remove the specified module. USE LOCK/UNLOCK!
+    /// Removes the specified module. USE LOCK/UNLOCK!
     pub fn sv_remove_module(slot: c_int, mod_num: c_int) -> c_int;
 
-    /// Connect the source to the destination. USE LOCK/UNLOCK!
+    /// Connects the source to the destination. USE LOCK/UNLOCK!
     pub fn sv_connect_module(slot: c_int, source: c_int, destination: c_int) -> c_int;
 
-    /// Disconnect the source from the destination. USE LOCK/UNLOCK!
+    /// Disconnects the source from the destination. USE LOCK/UNLOCK!
     pub fn sv_disconnect_module(slot: c_int, source: c_int, destination: c_int) -> c_int;
 
-    /// Load a module.
+    /// Loads a module.
     ///
     /// Supported file formats: `sunsynth`, `xi`, `wav`, `aiff`
     pub fn sv_load_module(slot: c_int,
@@ -308,7 +306,7 @@ extern "C" {
                           z: c_int)
                           -> c_int;
 
-    /// Load a sample to an existing Sampler.
+    /// Loads a sample to an existing Sampler.
     ///
     /// To replace the whole sampler, set `sample_slot` to -1.
     pub fn sv_sampler_load(slot: c_int,
@@ -318,7 +316,7 @@ extern "C" {
                            -> c_int;
 
 
-    /// Get the number of modules in the currently loaded project?
+    /// Gets the number of modules in the currently loaded project?
     ///
     /// Does not seem to directly correspond to that.
     ///
@@ -376,11 +374,11 @@ extern "C" {
     pub fn sv_pattern_mute(slot: c_int, pat_num: c_int, mute: c_int) -> c_int;
 
 
-    /// Get the current tick counter (from 0 to 0xFFFFFFFF).
+    /// Gets the current tick counter (from 0 to 0xFFFFFFFF).
     ///
     /// SunVox engine uses its own time space, measured in ticks.
     pub fn sv_get_ticks() -> c_uint;
 
-    /// Get the number of SunVox ticks per second.
+    /// Gets the number of SunVox ticks per second.
     pub fn sv_get_ticks_per_second() -> c_uint;
 }
