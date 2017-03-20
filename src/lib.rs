@@ -78,7 +78,7 @@ pub struct sunvox_note {
 }
 
 
-/// Supresses debug output from the library. TEST
+/// Supresses debug output from the SunVox library.
 pub const SV_INIT_FLAG_NO_DEBUG_OUTPUT: c_uint = 1 << 0;
 
 /// Interaction with sound card is on the user side.
