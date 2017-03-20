@@ -79,21 +79,21 @@ pub struct sunvox_note {
 
 
 /// Supresses debug output from the library. TEST
-pub const SV_INIT_FLAG_NO_DEBUG_OUTPUT: c_int = 1 << 0;
+pub const SV_INIT_FLAG_NO_DEBUG_OUTPUT: c_uint = 1 << 0;
 
 /// Interaction with sound card is on the user side.
 ///
 /// See `sv_audio_callback()`.
-pub const SV_INIT_FLAG_USER_AUDIO_CALLBACK: c_int = 1 << 1;
+pub const SV_INIT_FLAG_USER_AUDIO_CALLBACK: c_uint = 1 << 1;
 
 /// Audio is signed 16-bit (`c_short`).
-pub const SV_INIT_FLAG_AUDIO_INT16: c_int = 1 << 2;
+pub const SV_INIT_FLAG_AUDIO_INT16: c_uint = 1 << 2;
 
 /// Audio is float (`c_float`).
-pub const SV_INIT_FLAG_AUDIO_FLOAT32: c_int = 1 << 3;
+pub const SV_INIT_FLAG_AUDIO_FLOAT32: c_uint = 1 << 3;
 
 /// Audio callback and song modification functions are in a single thread.
-pub const SV_INIT_FLAG_ONE_THREAD: c_int = 1 << 4;
+pub const SV_INIT_FLAG_ONE_THREAD: c_uint = 1 << 4;
 
 
 pub const SV_MODULE_FLAG_EXISTS: c_int = 1;
