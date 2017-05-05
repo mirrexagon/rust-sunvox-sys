@@ -322,6 +322,7 @@ extern "C" {
     /// Gets the number of modules in the currently loaded project?
     ///
     /// Does not seem to directly correspond to that.
+    /// TODO: Investigate this.
     ///
     /// Returns zero if no project is loaded.
     pub fn sv_get_number_of_modules(slot: c_int) -> c_int;
@@ -340,7 +341,7 @@ extern "C" {
                                buffer_size: *mut c_int)
                                -> *mut c_void;
 
-    /// Return value:  received number of samples (may be less or equal to `samples_to_read`).
+    /// Return value: received number of samples (may be less or equal to `samples_to_read`).
     pub fn sv_get_module_scope2(slot: c_int,
                                 mod_num: c_int,
                                 channel: c_int,
