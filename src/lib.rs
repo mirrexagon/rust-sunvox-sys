@@ -341,6 +341,8 @@ extern "C" {
                                buffer_size: *mut c_int)
                                -> *mut c_void;
 
+    /// TODO
+    ///
     /// Return value: received number of samples (may be less or equal to `samples_to_read`).
     pub fn sv_get_module_scope2(slot: c_int,
                                 mod_num: c_int,
@@ -365,6 +367,8 @@ extern "C" {
     pub fn sv_get_pattern_lines(slot: c_int, pat_num: c_int) -> c_int;
 
 
+    /// TODO
+    ///
     /// How to use sv_get_pattern_data():
     ///
     /// - `int pat_tracks = sv_get_pattern_tracks(slot, pat_num);`
@@ -374,11 +378,15 @@ extern "C" {
     pub fn sv_get_pattern_data(slot: c_int, pat_num: c_int) -> *mut sunvox_note;
 
 
+    /// TODO
+    ///
     /// USE LOCK/UNLOCK!
     pub fn sv_pattern_mute(slot: c_int, pat_num: c_int, mute: c_int) -> c_int;
 
 
-    /// Gets the current tick counter (from 0 to 0xFFFFFFFF).
+    /// Gets the current tick counter 
+    ///
+    /// Returns a value between 0 and 0xFFFFFFFF inclusive.
     ///
     /// SunVox engine uses its own time space, measured in ticks.
     pub fn sv_get_ticks() -> c_uint;
