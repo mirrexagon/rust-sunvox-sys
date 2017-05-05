@@ -1,4 +1,6 @@
-# rust-sunvox-sys
+# rust-sunvox-sys 
+
+![crates.io](https://img.shields.io/crates/v/sunvox-sys.svg)](https://crates.io/crates/sunvox-sys)
 
 FFI bindings to the SunVox library (http://warmplace.ru/soft/sunvox).
 
