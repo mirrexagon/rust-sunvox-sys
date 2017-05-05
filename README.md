@@ -3,6 +3,11 @@
 FFI bindings to the SunVox library (http://warmplace.ru/soft/sunvox).
 
 
+## Usage notes
+
+Because I can't figure out how dynamically link `sunvox.so` with Rust at runtime (the way it is intended to be used in C), this crate expects to link to `libsunvox.so` in a library path. So, I installed `sunvox.so` on my system as `libsunvox.so` and patched its soname to be `libsunvox.so`.
+
+
 ## Attribution
 
 - SunVox and the SunVox library are by Alexander Zolotov (http://warmplace.ru).

@@ -14,7 +14,7 @@ extern crate libc;
 
 
 // --- Use --- //
-use libc::{c_void, c_int, c_uint, c_char, c_uchar, c_short, c_ushort, c_float};
+use libc::{c_void, c_int, c_uint, c_char, c_uchar, c_short, c_ushort};
 // --- ==== --- //
 
 
