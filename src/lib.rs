@@ -274,9 +274,10 @@ extern "C" {
     pub fn sv_get_song_tpl(slot: c_int) -> c_int;
 
 
-    /// Frames is one discrete of the sound. Sampling frequency 44100 Hz means,
-    /// that you hear 44100 frames per second.
+    /// Gets the currently loaded song's length in audio samples/frames.
     pub fn sv_get_song_length_frames(slot: c_int) -> c_uint;
+
+    /// Gets the currently loaded song's length in pattern lines.
     pub fn sv_get_song_length_lines(slot: c_int) -> c_uint;
 
 
