@@ -155,7 +155,7 @@ extern "C" {
     /// the same tick counter, which you can get by calling `sv_get_ticks()`.
     pub fn sv_open_slot(slot: c_int) -> c_int;
 
-    /// Close a slot. See `sv_open_slot()` for more details.
+    /// Closes a slot. See `sv_open_slot()` for more details.
     pub fn sv_close_slot(slot: c_int) -> c_int;
 
     /// Locks a slot.
