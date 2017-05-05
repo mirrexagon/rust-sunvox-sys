@@ -190,7 +190,7 @@ extern "C" {
     /// Loads a SunVox project file into the specified slot.
     pub fn sv_load(slot: c_int, name: *const c_char) -> c_int;
 
-    /// Loads a SunVox project from file data in memory. TEST
+    /// Loads a SunVox project from file data in memory.
     pub fn sv_load_from_memory(slot: c_int, data: *mut c_void, data_size: c_uint) -> c_int;
 
 
